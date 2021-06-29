@@ -1,0 +1,12 @@
+img{
+    position: relative;
+    width: 100%;
+    height: 685px;
+    max-height: 685px;
+    /* margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 50%;
+    max-width: 100%; */
+}
