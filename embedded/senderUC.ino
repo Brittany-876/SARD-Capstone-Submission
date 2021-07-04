@@ -418,9 +418,6 @@ void loop() {
       {
           lcd.print(Data[data_count]);
       }
-      //sprintf(patient_ID, "%d%d%d%d%d%d", Data[0], Data[1], Data[2], Data[3], Data[4], Data[5]);
-      ///PatientID = String(patient_ID);
-      ///lcd.print(PatientID);
       delay(2000);
       lcd.clear(); 
       menu = 3;
