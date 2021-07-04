@@ -1,4 +1,4 @@
-var connectionURL = "http://10.22.68.76:5000"
+var connectionURL = "http://172.16.188.47:5000"
 var patient_email;
 var physio_email;
 

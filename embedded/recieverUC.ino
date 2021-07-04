@@ -9,7 +9,7 @@ SoftwareSerial mySerial (rxPin,txPin); //RX, TX
 #define relay_hot A2
 #define sensor_cold A4
 
-Servo myservoFront;  // create servo object to control a servo
+Servo myservoFront;  
 Servo myservoBack;
 Servo myservoRight;
 Servo myservoLeft;
@@ -43,11 +43,14 @@ int dorsiAngle;
 int plantarAngle;
 int inversionAngle;
 int eversionAngle;
+int rangeAngleminus;
+int rangeAngleplus;
 int servoposition =135;
 int dorsi_sets;
 int plantar_sets;
 int inversion_sets;
 int eversion_sets;
+int range_sets;
 char mystr[9] = "Finished!";
 
 
@@ -65,7 +68,7 @@ void setup() {
   pinMode(relay_cold, OUTPUT);
   pinMode(relay_hot, OUTPUT);
  
-  myservoFront.attach(5);  // attaches the servo on pin 9 to the servo object
+  myservoFront.attach(5);  
   myservoBack.attach(9);
   myservoRight.attach(10);
   myservoLeft.attach(6);
@@ -123,41 +126,44 @@ void loop() {
   //mySerial.print(l);
    
   //temperature supply switch
-   if (t == '2'){
+   if (t == '3'){
     digitalWrite(relay_hot, HIGH);
    }
-   else if (t == '3'){
+   else if (t == '2'){
     digitalWrite(relay_cold, HIGH);  
    }
 
-   //dorsi angle options
-   if (z == '1'){
-    dorsiAngle = (servoposition - 5);
+   //plantar angle options
+   if (a == '1'){
+    dorsiAngle = (servoposition - 36);
    }
-   else if (z == '2'){
-    dorsiAngle = (servoposition - 10);
+   else if (a == '2'){
+    dorsiAngle = (servoposition - 72);
    }
-    else if (z == '3'){
-    dorsiAngle = (servoposition - 15);
+    else if (a == '3'){
+    dorsiAngle = (servoposition - 72);
    }
-   else if (z == '4'){
-    dorsiAngle = (servoposition - 20);
+   else if (a == '4'){
+    dorsiAngle = (servoposition - 72);
+   }
+   else if (a == '5'){
+    dorsiAngle = (servoposition - 72);
    }
 
-   //Dorsi Exercise
-   if (y == '1'){
+   //plantar Exercise
+   if (y == '2'){
    for (dorsi_sets = 1; dorsi_sets <= l; dorsi_sets +=1){
     for (int dorsi_reps = 1; dorsi_reps <= k; dorsi_reps +=1){
-      for (pos = 135; pos >= dorsiAngle; pos -= 1) { // goes from 0 degrees to 180 degrees
+      for (pos = 135; pos >= dorsiAngle; pos -= 1) { 
         // in steps of 1 degree
-        myservoFront.write(pos);              // tell servo to go to position in variable 'pos'
+        myservoFront.write(pos);              
         myservoBack.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        delay(15);                       
       }
-      for (pos = dorsiAngle; pos <= 135; pos += 1) { // goes from 180 degrees to 0 degrees
-        myservoFront.write(pos);              // tell servo to go to position in variable 'pos'
+      for (pos = dorsiAngle; pos <= 135; pos += 1) { 
+        myservoFront.write(pos);              
         myservoBack.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        delay(15);                       
       }
      }
    }
@@ -166,37 +172,34 @@ void loop() {
    mySerial.write(mystr,9);
    }
 
- //plantar angle options
-   if (a == '1'){
-    plantarAngle = (servoposition + 10);
+ //dorsi angle options
+   if (z == '1'){
+    plantarAngle = (servoposition + 72);
    }
-   else if (a == '2'){
-    plantarAngle = (servoposition + 20);
+   else if (z == '2'){
+    plantarAngle = (servoposition + 72);
    }
-    else if (a == '3'){
-    plantarAngle = (servoposition + 30);
+    else if (z == '3'){
+    plantarAngle = (servoposition + 72);
    }
-   else if (a == '4'){
-    plantarAngle = (servoposition + 40);
-   }
-   else if (a == '5'){
-    plantarAngle = (servoposition + 50);
+   else if (z == '4'){
+    plantarAngle = (servoposition + 72);
    }
 
-   //Plantar Exercise
-   if (y == '2'){
+   //dorsi Exercise
+   if (y == '1'){
    for (plantar_sets = 1; plantar_sets <= l; plantar_sets +=1){
     for (int plantar_reps = 1; plantar_reps <= k; plantar_reps +=1){
-      for (pos = 135; pos <= plantarAngle; pos += 1) { // goes from 0 degrees to 180 degrees
+      for (pos = 135; pos <= plantarAngle; pos += 1) { 
         // in steps of 1 degree
-        myservoFront.write(pos);              // tell servo to go to position in variable 'pos'
+        myservoFront.write(pos);              
         myservoBack.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        delay(15);                       
       }
-      for (pos = plantarAngle; pos >= 135; pos -= 1) { // goes from 180 degrees to 0 degrees
-        myservoFront.write(pos);              // tell servo to go to position in variable 'pos'
+      for (pos = plantarAngle; pos >= 135; pos -= 1) { 
+        myservoFront.write(pos);              
         myservoBack.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        delay(15);                       
       }
      }
    }
@@ -207,40 +210,40 @@ void loop() {
 
    //Inversion Angle Options
    if (b == '1'){
-    inversionAngle = (servoposition - 5);
+    inversionAngle = (servoposition - 36);
    }
    else if (b == '2'){
-    inversionAngle = (servoposition - 10);
+    inversionAngle = (servoposition - 72);
    }
     else if (b == '3'){
-    inversionAngle = (servoposition - 15);
+    inversionAngle = (servoposition - 72);
    }
    else if (b == '4'){
-    inversionAngle = (servoposition - 20);
+    inversionAngle = (servoposition - 72);
    }
    else if (b == '5'){
-    inversionAngle = (servoposition - 25);
+    inversionAngle = (servoposition - 72);
    }
    else if (b == '6'){
-    inversionAngle = (servoposition - 30);
+    inversionAngle = (servoposition - 72);
    }
    else if (b == '7'){
-    inversionAngle = (servoposition - 35);
+    inversionAngle = (servoposition - 72);
    }
    //Inversion Exercise
    if (y == '3'){
    for (inversion_sets = 1; inversion_sets <= l; inversion_sets +=1){
     for (int inversion_reps = 1; inversion_reps <= k; inversion_reps +=1){
-      for (pos = 135; pos >= inversionAngle; pos -= 1) { // goes from 0 degrees to 180 degrees
+      for (pos = 135; pos >= inversionAngle; pos -= 1) { 
         // in steps of 1 degree
-        myservoRight.write(pos);              // tell servo to go to position in variable 'pos'
+        myservoRight.write(pos);              
         myservoLeft.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        delay(15);                       
       }
-      for (pos = inversionAngle; pos <= 135; pos += 1) { // goes from 180 degrees to 0 degrees
-        myservoRight.write(pos);              // tell servo to go to position in variable 'pos'
+      for (pos = inversionAngle; pos <= 135; pos += 1) { 
+        myservoRight.write(pos);              
         myservoLeft.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        delay(15);                       
       }
      }
    }
@@ -251,35 +254,35 @@ void loop() {
 
    //Eversion Angle Options
    if (c == '1'){
-    eversionAngle = (servoposition + 5);
+    eversionAngle = (servoposition + 36);
    }
    else if (c == '2'){
-    eversionAngle = (servoposition + 10);
+    eversionAngle = (servoposition + 72);
    }
     else if (c == '3'){
-    eversionAngle = (servoposition + 15);
+    eversionAngle = (servoposition + 72);
    }
    else if (c == '4'){
-    eversionAngle = (servoposition + 20);
+    eversionAngle = (servoposition + 72);
    }
    else if (c == '5'){
-    eversionAngle = (servoposition + 25);
+    eversionAngle = (servoposition + 72);
    }
 
    //Eversion Exercise
   if (y == '4'){
    for (eversion_sets = 1; eversion_sets <= l; eversion_sets +=1){
     for (int eversion_reps = 1; eversion_reps <= k; eversion_reps +=1){
-      for (pos = 135; pos <= eversionAngle; pos += 1) { // goes from 0 degrees to 180 degrees
+      for (pos = 135; pos <= eversionAngle; pos += 1) { 
         // in steps of 1 degree
-        myservoFront.write(pos);              // tell servo to go to position in variable 'pos'
-        myservoBack.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+        myservoRight.write(pos);              
+        myservoLeft.write(pos);
+        delay(15);                       
       }
-      for (pos = plantarAngle; pos >= 135; pos -= 1) { // goes from 180 degrees to 0 degrees
-        myservoFront.write(pos);              // tell servo to go to position in variable 'pos'
-        myservoBack.write(pos);
-        delay(15);                       // waits 15ms for the servo to reach the position
+      for (pos = plantarAngle; pos >= 135; pos -= 1) { 
+        myservoRight.write(pos);              
+        myservoLeft.write(pos);
+        delay(15);                       
       }
      }
    }
@@ -288,15 +291,65 @@ void loop() {
    mySerial.write(mystr,9);
    }
 
-   // figure out range of motion
+   //range of motion
+    if (d == '1'){
+    rangeAngleplus = (servoposition + 36);
+    rangeAngleminus = (servoposition - 36);
+   }
+   else if (d == '2'){
+    rangeAngleplus = (servoposition + 36);
+    rangeAngleminus = (servoposition - 36);
+   }
+    else if (d == '3'){
+    rangeAngleplus = (servoposition + 36);
+    rangeAngleminus = (servoposition - 36);
+   }
+
+   //Range of Motion Exercise
+  if (y == '5'){
+   for (range_sets = 1; range_sets <= l; range_sets +=1){
+    for (int range_reps = 1; range_reps <= k; range_reps +=1){
+    for (pos = 135; pos <= rangeAngleplus; pos += 1) { 
+        // in steps of 1 degree
+        myservoFront.write(pos);              
+        myservoBack.write(pos);
+        delay(15);                       
+      }
+      for (pos = 135; pos <= rangeAngleplus; pos += 1) { 
+        // in steps of 1 degree
+        myservoRight.write(pos);              
+        myservoLeft.write(pos);
+        delay(15);                       
+      }
+      for (pos = 135; pos >= rangeAngleminus; pos -= 1) { 
+        // in steps of 1 degree
+        myservoFront.write(pos);              
+        myservoBack.write(pos);
+        delay(15);                       
+      }
+     for (pos = 135; pos >= rangeAngleminus; pos -= 1) { 
+        // in steps of 1 degree
+        myservoRight.write(pos);              
+        myservoLeft.write(pos);
+        delay(15);                       
+      }
+   }
+   myservoFront.write(135);              
+   myservoBack.write(135);
+   myservoRight.write(135);
+   myservoLeft.write(135);
+   digitalWrite(relay_cold, LOW);
+   digitalWrite(relay_hot, LOW);
+   mySerial.write(mystr,9);
+   }
    
-   
-  //temperature senor for peltier
-  reading = analogRead(sensor_cold);
-  temperature = reading *0.48828125;
-  //mySerial.print(temperature);
-  //mySerial.print(" \xC2\xB0");//degree symbol
-  //mySerial.println("C");
-  delay(1000);
+//  //temperature senor for peltier
+//  reading = analogRead(sensor_cold);
+//  temperature = reading *0.48828125;
+//  //mySerial.print(temperature);
+//  //mySerial.print(" \xC2\xB0");//degree symbol
+//  //mySerial.println("C");
+//  delay(1000);
+}
 }
 }

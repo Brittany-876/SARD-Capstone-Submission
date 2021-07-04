@@ -1,7 +1,8 @@
-var connectionURL = "http://10.22.68.76:5000"
+var connectionURL = "http://172.16.188.47:5000"
 var email;
 var phsyio_email;
 var patient_email;
+var PatientID;
 
 function drawPatientData(patient){
     physio_email = patient.physiotherapistemail;
@@ -45,10 +46,73 @@ function getPatient(){
     .then((json) => json);
 }
 
+function getRecords(){
+    return fetch(connectionURL.concat("/record"))
+    .then((res) => res.json())
+    .then((json) => json);
+}
+
+async function getSpecificRecords() {
+    let records = await getRecords();
+
+    records.forEach((record) => {
+        if(record.PatientID === PatientID){
+            console.log(record);
+            addTableBody(record);
+        }
+    });
+}
+
 async function displayData(){
     let patient = await getPatient();
+    PatientID = patient.PatientID; 
     var container = document.querySelector(".container");
     container.append(drawPatientData(patient));
+}
+
+function addTableHead(){
+    var table = document.getElementById("recordTable");
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+
+    var exerciseTypeHead = row.insertCell(0);
+    exerciseTypeHead.classList.add("head-row");
+
+    var angleShiftHead = row.insertCell(1);
+    angleShiftHead.classList.add("head-row");
+
+    var setsHead = row.insertCell(2);
+    setsHead.classList.add("head-row");
+
+    var repsHead = row.insertCell(3);
+    repsHead.classList.add("head-row");
+
+    var timeUpdatedHead = row.insertCell(4);
+    timeUpdatedHead.classList.add("head-row");
+
+    exerciseTypeHead.innerHTML = "Exercise Type";
+    angleShiftHead.innerHTML = "Angle Shift";
+    setsHead.innerHTML = "Sets"; 
+    repsHead.innerHTML = "Reps"; 
+    timeUpdatedHead.innerHTML = "Date & Time";
+}
+
+function addTableBody(record){
+    var table = document.getElementById("recordTable");
+
+    var row = table.insertRow(0);
+
+    var exerciseTypeContent = row.insertCell(0);
+    var angleShiftContent = row.insertCell(1);
+    var setsContent = row.insertCell(2);
+    var repsContent = row.insertCell(3);
+    var timeUpdatedContent = row.insertCell(4)
+
+    exerciseTypeContent.innerHTML = record.exerciseType;
+    angleShiftContent.innerHTML = record.angleShift;
+    setsContent.innerHTML = record.sets; 
+    repsContent.innerHTML = record.reps;
+    timeUpdatedContent.innerHTML = record.timeUpdated;
 }
 
 function goToEmailPage(){
@@ -61,7 +125,12 @@ function goToEmailPage(){
 
 window.onload = function() {
     email = sessionStorage.getItem("patient_email");
-    setTimeout(function(){
+    //PatientID = sessionStorage.getItem("PatientID");
         displayData();
-    },1000);
+        getSpecificRecords();
+    
+        setTimeout( function(){
+            addTableHead();
+       }, 1000);
+
 };

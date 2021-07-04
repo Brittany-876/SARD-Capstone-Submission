@@ -6,6 +6,8 @@ from flask_cors import CORS
 from flask_mail import Mail, Message
 from bson.json_util import dumps
 from json import loads
+from datetime import datetime
+
 #from decouple import config
 #import bcrypt
 
@@ -47,6 +49,7 @@ class RecordSchema(Schema):
     reps = fields.Number(required=True)
     sets = fields.Number(required=True)
     temperature = fields.String(required=True)
+    timeUpdated = fields.String(required=True)
     
     
 # @app.route("/register", methods=["GET", "POST"])
@@ -169,13 +172,17 @@ def addPatientRecord():
             sets = request.json["sets"]
             temperature = request.json["temperature"]
 
+            now = datetime.now()
+            timeUpdated = now.strftime("%d/%m/%Y %H:%M")
+
             jsonBody = {
                 "PatientID": PatientID,
                 "exerciseType": exerciseType,
                 "angleShift": angleShift,
                 "reps": reps,
                 "sets": sets,
-                "temperature": temperature
+                "temperature": temperature,
+                "timeUpdated": timeUpdated
             }
 
             newRecord = RecordSchema().load(jsonBody)
@@ -208,4 +215,4 @@ def logout():
 
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
-    app.run(debug=True, host="10.22.68.76", port=5000)
+    app.run(debug=True, host="172.16.188.47", port=5000)
